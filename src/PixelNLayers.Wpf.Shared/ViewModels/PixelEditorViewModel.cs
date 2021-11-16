@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -21,6 +22,9 @@ public class PixelEditorViewModel : ObservableObject
 				img[i, j] = j % 2 == 0 && i % 2 == 0 ? Colors.Red : Colors.Blue;
 			}
 		}
+
+		Color? color = img[0, 0];
+		Debug.WriteLine(color);
 
 		_image = img;
 		Save(Image);
