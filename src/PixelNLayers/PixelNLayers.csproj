@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PixelNLayers.Shared\PixelNLayers.Shared.csproj" />
+    <ProjectReference Include="..\PixelNLayers.Wpf.Shared\PixelNLayers.Wpf.Shared.csproj" />
+    <ProjectReference Include="..\PixelNLayers.Wpf\PixelNLayers.Wpf.csproj" />
+  </ItemGroup>
+
+</Project>
