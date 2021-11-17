@@ -22,9 +22,9 @@ public class PixelApp : Application
 	private static IServiceProvider ConfigureServices()
 	{
 		var services = new ServiceCollection();
+		services.AddSingleton<PixelEditorViewModel>();
 		services.AddSingleton<RootViewModel>();
 		services.AddSingleton<HomeViewModel>();
-		services.AddSingleton<PixelEditorViewModel>();
 		return services.BuildServiceProvider();
 	}
 }

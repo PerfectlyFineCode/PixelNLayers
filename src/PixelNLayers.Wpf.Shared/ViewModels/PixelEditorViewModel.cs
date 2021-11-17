@@ -7,6 +7,7 @@ using PixelNLayers.Shared.Images.Wrapper;
 
 namespace PixelNLayers.Wpf.Shared.ViewModels;
 
+#nullable disable
 public class PixelEditorViewModel : ObservableObject
 {
 	private EditableImage _image;
@@ -26,21 +27,15 @@ public class PixelEditorViewModel : ObservableObject
 		Color? color = img[0, 0];
 		Debug.WriteLine(color);
 
-		_image = img;
+		Image = img;
 		Save(Image);
 	}
 
 	public EditableImage Image
 	{
 		get => _image;
-		set
-		{
-			SetProperty(ref _image, value);
-			OnPropertyChanged(nameof(ImageSource));
-		}
+		set => SetProperty(ref _image, value);
 	}
-
-	public ImageSource ImageSource => _image;
 
 	private void Save(ImageSource source)
 	{

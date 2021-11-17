@@ -1,22 +1,42 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace PixelNLayers.Shared.Images.Wrapper;
 
-public class EditableImage
+#nullable disable
+public class EditableImage : INotifyPropertyChanged
 {
+	private WriteableBitmap _image;
+
 	public EditableImage(int width, int height)
 	{
 		Image = new WriteableBitmap(width, height, 72, 72, PixelFormats.Bgra32, null);
 	}
 
-	public WriteableBitmap Image { get; }
+	public WriteableBitmap Image
+	{
+		get => _image;
+		set
+		{
+			_image = value;
+			RaisePropertyChanged();
+		}
+	}
 
 	public Color? this[int x, int y]
 	{
 		get => GetPixel(x, y);
 		set => SetPixel(x, y, value);
+	}
+
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	public static implicit operator WriteableBitmap(EditableImage source)
+	{
+		return source.Image;
 	}
 
 	private Color? GetPixel(int x, int y)
@@ -98,5 +118,10 @@ public class EditableImage
 			// Release the back buffer and make it available for display.
 			Image.Unlock();
 		}
+	}
+
+	public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+	{
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }

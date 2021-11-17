@@ -10,8 +10,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PixelEditorPage"
       d:DataContext="{d:DesignInstance viewModels:PixelEditorViewModel}">
-
     <Grid>
-        <editor:PixelEditor ImageSource="{Binding ImageSource, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--<Image Source="{Binding Image.Image, UpdateSourceTrigger=PropertyChanged}"/>-->
+        <editor:PixelEditor DrawableSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.Image, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Page>
