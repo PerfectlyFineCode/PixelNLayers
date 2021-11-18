@@ -5,36 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PixelNLayers.Wpf.Controls.Editor" 
              xmlns:wrapper="clr-namespace:PixelNLayers.Shared.Images.Wrapper;assembly=PixelNLayers.Shared"
+             xmlns:canvases="clr-namespace:PixelNLayers.Wpf.Controls.Canvases"
+             xmlns:grids="clr-namespace:PixelNLayers.Wpf.Controls.Grids"
+             xmlns:images="clr-namespace:PixelNLayers.Wpf.Controls.Images"
              d:DataContext="{d:DesignInstance {x:Type local:PixelEditor}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{Binding RelativeSource={RelativeSource  Mode=Self}}">
     <Grid Background="Black">
-        <Canvas>
-            <Canvas.RenderTransform>
-                <!--TODO Fix scaling, maybe a new control that handles movement / navigation-->
-                <ScaleTransform ScaleX="10"
-                                ScaleY="10"
-                                CenterX="0"
-                                CenterY="0"/>
-            </Canvas.RenderTransform>
-            <Canvas.Background>
-                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
-                    <DrawingBrush.Drawing>
-                        <DrawingGroup>
-                            <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z" Brush="#FF232323"/>
-                            <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z" Brush="#FF2B2B2B"/>
-                        </DrawingGroup>
-                    </DrawingBrush.Drawing>
-                </DrawingBrush>
-            </Canvas.Background>
-
-            <Image Source="{Binding Path=DrawableSource.Image, UpdateSourceTrigger=PropertyChanged}"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor"
-                       Width="{Binding Path=DrawableSource.Image.Width, UpdateSourceTrigger=PropertyChanged}"
-                       Height="{Binding Path=DrawableSource.Image.Height, UpdateSourceTrigger=PropertyChanged}"
-                       Canvas.Left="10"
-                       Canvas.Top="10"/>
-        </Canvas>
+        <grids:MovableGrid Image="{Binding Path=DrawableSource.Image, UpdateSourceTrigger=PropertyChanged}">
+            <images:PixelImage EditableImageSource="{Binding Path=DrawableSource, UpdateSourceTrigger=PropertyChanged}"
+                               Source="{Binding Path=DrawableSource.Image, UpdateSourceTrigger=PropertyChanged}"
+                               RenderOptions.BitmapScalingMode="NearestNeighbor"
+                               Width="{Binding Path=DrawableSource.Image.Width, UpdateSourceTrigger=PropertyChanged}"
+                               Height="{Binding Path=DrawableSource.Image.Height, UpdateSourceTrigger=PropertyChanged}"/>
+        </grids:MovableGrid>
     </Grid>
 </UserControl>

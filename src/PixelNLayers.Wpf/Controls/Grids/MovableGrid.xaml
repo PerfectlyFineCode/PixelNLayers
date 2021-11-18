@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="PixelNLayers.Wpf.Controls.Grids.MovableGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PixelNLayers.Wpf.Controls.Grids"
+             xmlns:canvases="clr-namespace:PixelNLayers.Wpf.Controls.Canvases"
+             mc:Ignorable="d"
+             x:Name="DragGrid">
+    <UserControl.Template>
+        <ControlTemplate>
+            <Grid x:Name="GridParent">
+                <Grid.Background>
+                    <DrawingBrush TileMode="Tile" 
+                                  Viewport="{Binding ElementName=DragGrid, Path=GridViewport, UpdateSourceTrigger=PropertyChanged}" 
+                                  ViewportUnits="Absolute"
+                                  x:Name="GridBrush">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z" Brush="#FF232323"/>
+                                <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z" Brush="#FF2B2B2B"/>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Grid.Background>
+                <canvases:DraggableCanvas Image="{TemplateBinding local:MovableGrid.Image}"
+                                          ParentControl="{Binding ElementName=DragGrid}">
+                    <ContentControl Content="{TemplateBinding local:MovableGrid.Content}"/>
+                </canvases:DraggableCanvas>
+            </Grid>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>
+    
