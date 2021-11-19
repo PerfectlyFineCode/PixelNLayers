@@ -15,7 +15,6 @@
     <Grid Background="Black">
         <grids:MovableGrid Image="{Binding Path=DrawableSource.Image, UpdateSourceTrigger=PropertyChanged}">
             <images:PixelImage EditableImageSource="{Binding Path=DrawableSource, UpdateSourceTrigger=PropertyChanged}"
-                               Source="{Binding Path=DrawableSource.Image, UpdateSourceTrigger=PropertyChanged}"
                                RenderOptions.BitmapScalingMode="NearestNeighbor"
                                Width="{Binding Path=DrawableSource.Image.Width, UpdateSourceTrigger=PropertyChanged}"
                                Height="{Binding Path=DrawableSource.Image.Height, UpdateSourceTrigger=PropertyChanged}"/>

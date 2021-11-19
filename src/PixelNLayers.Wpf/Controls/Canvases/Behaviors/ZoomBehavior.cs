@@ -10,70 +10,75 @@ namespace PixelNLayers.Wpf.Controls.Canvases.Behaviors;
 #nullable disable
 internal class ZoomBehavior : Behavior<DraggableCanvas>
 {
-	private const double ScaleDown = 1 / 1.1;
-	private const double ScaleUp = 1.1;
+    private const double ScaleDown = 1 / 1.1;
+    private const double ScaleUp = 1.1;
 
-	public static readonly DependencyProperty MinThresholdProperty = DependencyProperty.Register(
-		nameof(MinThreshold), typeof(double), typeof(ZoomBehavior),
-		new PropertyMetadata(0.2));
+    public static readonly DependencyProperty MinThresholdProperty = DependencyProperty.Register(
+        nameof(MinThreshold), typeof(double), typeof(ZoomBehavior),
+        new PropertyMetadata(0.2));
 
-	public static readonly DependencyProperty MaxThresholdProperty = DependencyProperty.Register(
-		nameof(MaxThreshold), typeof(double), typeof(ZoomBehavior),
-		new PropertyMetadata(100.0));
+    public static readonly DependencyProperty MaxThresholdProperty = DependencyProperty.Register(
+        nameof(MaxThreshold), typeof(double), typeof(ZoomBehavior),
+        new PropertyMetadata(100.0));
 
-	private MovableGrid _grid;
-	private MatrixTransform _transform;
+    private MovableGrid _grid;
+    private MatrixTransform _transform;
 
-	public double MaxThreshold
-	{
-		get => (double)GetValue(MaxThresholdProperty);
-		set => SetValue(MaxThresholdProperty, value);
-	}
+    // Scale up / down towards cursor position
+    private double previousScale;
 
-	public double MinThreshold
-	{
-		get => (double)GetValue(MinThresholdProperty);
-		set => SetValue(MinThresholdProperty, value);
-	}
+    public double MaxThreshold
+    {
+        get => (double) GetValue(MaxThresholdProperty);
+        set => SetValue(MaxThresholdProperty, value);
+    }
 
-	protected override void OnAttached()
-	{
-		AssociatedObject.Loaded += AssociatedObject_Loaded;
-	}
+    public double MinThreshold
+    {
+        get => (double) GetValue(MinThresholdProperty);
+        set => SetValue(MinThresholdProperty, value);
+    }
 
-	private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
-	{
-		if (AssociatedObject.ParentControl == DependencyProperty.UnsetValue)
-			throw new NullReferenceException("ParentControl has not been set!");
+    protected override void OnAttached()
+    {
+        AssociatedObject.Loaded += AssociatedObject_Loaded;
+    }
 
-		_grid = AssociatedObject.ParentControl;
+    private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (AssociatedObject.ParentControl == DependencyProperty.UnsetValue)
+            throw new NullReferenceException("ParentControl has not been set!");
 
-		_grid.MouseWheel += _grid_MouseWheel;
+        _grid = AssociatedObject.ParentControl;
 
-		if (AssociatedObject.RenderTransform is not TransformGroup group) return;
-		_transform = group.Children[2] as MatrixTransform;
-	}
+        _grid.MouseWheel += _grid_MouseWheel;
 
-	// Scale up / down towards cursor position
-	private void _grid_MouseWheel(object sender, MouseWheelEventArgs e)
-	{
-		double scale = e.Delta > 0 ? ScaleUp : ScaleDown;
-		//double value = AssociatedObject.Zoom + scale;
-		//AssociatedObject.Zoom = Math.Clamp(value, MinThreshold, MaxThreshold);
+        if (AssociatedObject.RenderTransform is not TransformGroup group) return;
+        _transform = group.Children[2] as MatrixTransform;
+    }
 
-		var pos = e.GetPosition(_grid);
+    private void _grid_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        double scale = e.Delta > 0 ? ScaleUp : ScaleDown;
+        //double value = AssociatedObject.Zoom + scale;
+        //AssociatedObject.Zoom = Math.Clamp(value, MinThreshold, MaxThreshold);
 
-		var mat = _transform.Matrix;
+        var pos = e.GetPosition(_grid);
 
-		mat.ScaleAt(scale, scale, pos.X, pos.Y);
+        var mat = _transform.Matrix;
 
-		double calc = mat.M11 / mat.M22;
-		Debug.WriteLine(calc);
-		if (calc == 0) return;
-		mat.M11 = Math.Clamp(mat.M11, MinThreshold, MaxThreshold);
-		mat.M22 = Math.Clamp(mat.M22, MinThreshold, MaxThreshold);
+        mat.ScaleAt(scale, scale, pos.X, pos.Y);
+        double result = mat.M11 * mat.M22;
+        double s = Math.Abs(previousScale - result);
+        if (s == 0) return;
+        previousScale = result;
 
-		_transform.Matrix = mat;
+        Debug.WriteLine($"Width: {mat.M11}, Height: {mat.M22}");
+        //if (calc == 0) return;
+        mat.M11 = Math.Clamp(mat.M11, MinThreshold, MaxThreshold);
+        mat.M22 = Math.Clamp(mat.M22, MinThreshold, MaxThreshold);
 
-	}
+        _transform.Matrix = mat;
+        e.Handled = true;
+    }
 }

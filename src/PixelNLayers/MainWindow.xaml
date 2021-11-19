@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:PixelNLayers.Wpf.Shared.ViewModels;assembly=PixelNLayers.Wpf.Shared"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="PixelNLayers - Open Source Pixel Editor" Height="450" Width="800"
         d:DataContext="{d:DesignInstance {x:Type viewmodels:RootViewModel}}">
     <Grid>
         <Frame Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>
+ 
