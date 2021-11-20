@@ -9,8 +9,8 @@
              x:Name="DragGrid">
     <UserControl.Template>
         <ControlTemplate>
-            <Grid x:Name="GridParent">
-                <Grid.Background>
+            <Grid x:Name="GridParent" Background="#151515">
+                <!--<Grid.Background>
                     <DrawingBrush TileMode="Tile" 
                                   Viewport="{Binding ElementName=DragGrid, Path=GridViewport, UpdateSourceTrigger=PropertyChanged}" 
                                   ViewportUnits="Absolute"
@@ -22,7 +22,7 @@
                             </DrawingGroup>
                         </DrawingBrush.Drawing>
                     </DrawingBrush>
-                </Grid.Background>
+                </Grid.Background>-->
                 <canvases:DraggableCanvas Image="{TemplateBinding local:MovableGrid.Image}"
                                           ParentControl="{Binding ElementName=DragGrid}">
                     <ContentControl Content="{TemplateBinding local:MovableGrid.Content}"/>

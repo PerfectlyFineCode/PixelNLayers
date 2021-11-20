@@ -16,13 +16,13 @@ public class PixelEditorViewModel : ObservableObject
 	{
 		var img = new EditableImage(64, 64);
 
-		for (var i = 0; i < img.Image.PixelHeight; i++)
-		{
-			for (var j = 0; j < img.Image.PixelWidth; j++)
-			{
-				img[i, j] = j % 2 == 0 && i % 2 == 0 ? Colors.Red : Colors.Blue;
-			}
-		}
+		//for (var i = 0; i < img.Image.PixelHeight; i++)
+		//{
+		//	for (var j = 0; j < img.Image.PixelWidth; j++)
+		//	{
+		//		img[i, j] = j % 2 == 0 && i % 2 == 0 ? Colors.Red : Colors.Blue;
+		//	}
+		//}
 
 		Color? color = img[0, 0];
 		Debug.WriteLine(color);

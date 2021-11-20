@@ -3,124 +3,198 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PixelNLayers.Shared.Images.Recorder.Interfaces;
+#if DEBUG
+using System.Diagnostics;
+#endif
 
 namespace PixelNLayers.Shared.Images.Wrapper;
 
 #nullable disable
-public class EditableImage : INotifyPropertyChanged
+public class EditableImage : INotifyPropertyChanged, IRecordable
 {
-    private WriteableBitmap _image;
+	private readonly Queue<List<PixelData>> HistoryData = new();
+	private WriteableBitmap _image;
+	private bool _state;
 
-    public EditableImage(int width, int height)
-    {
-        Image = new WriteableBitmap(width, height, 72, 72, PixelFormats.Bgra32, null);
-    }
+	private List<PixelData> _temporaryPixelDatas;
 
-    public WriteableBitmap Image
-    {
-        get => _image;
-        set
-        {
-            _image = value;
-            RaisePropertyChanged();
-        }
-    }
+	public EditableImage(int width, int height)
+	{
+		Image = new WriteableBitmap(width, height, 72, 72, PixelFormats.Bgra32, null);
+	}
 
-    public Color? this[int x, int y]
-    {
-        get => GetPixel(x, y);
-        set => SetPixel(x, y, value);
-    }
+	public WriteableBitmap Image
+	{
+		get => _image;
+		set
+		{
+			_image = value;
+			RaisePropertyChanged();
+		}
+	}
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+	public Color this[int x, int y]
+	{
+		get => GetPixel(x, y);
+		set
+		{
+			var old = GetPixel(x, y);
+			if (old == value) return;
+			if (!SetPixel(x, y, value)) return;
+			if (!_state) return;
+			AddToHistory(x, y, value, old);
 
-    public static implicit operator WriteableBitmap(EditableImage source)
-    {
-        return source.Image;
-    }
+		}
+	}
 
-    private Color? GetPixel(int x, int y)
-    {
-        try
-        {
-            unsafe
-            {
-                // Reserve the back buffer for updates.
-                Image.Lock();
+	public event PropertyChangedEventHandler PropertyChanged;
 
-                // Get a pointer to the back buffer.
-                var pBackBuffer = Image.BackBuffer;
+	void IRecordable.StartRecord()
+	{
+		_temporaryPixelDatas = new List<PixelData>();
+		_state = true;
+	}
 
-                // Find the address of the pixel to draw.
-                pBackBuffer += y * Image.BackBufferStride;
-                pBackBuffer += x * 4;
+	bool IRecordable.StopRecord()
+	{
+		if (!_state) return false;
+		Debug.WriteLine(_temporaryPixelDatas.Count);
+		HistoryData.Enqueue(_temporaryPixelDatas);
+		_state = false;
+		return true;
 
-                var data = (byte*) pBackBuffer.ToPointer();
+	}
 
-                byte b = data[0];
-                byte g = data[1];
-                byte a = data[3];
-                byte r = data[2];
+	private void AddToHistory(int x, int y, Color color, Color previousColor)
+	{
+		_temporaryPixelDatas.Add(new PixelData(x, y, color, previousColor));
+	}
 
-                return Color.FromArgb(a, r, g, b);
-            }
-        }
-        catch
-        {
-            return null;
-        }
-        finally
-        {
-            // Release the back buffer and make it available for display.
-            Image.Unlock();
-        }
-    }
+	public static implicit operator WriteableBitmap(EditableImage source)
+	{
+		return source.Image;
+	}
 
-    public static implicit operator ImageSource(EditableImage image)
-    {
-        return image.Image;
-    }
+	private Color GetPixel(int x, int y)
+	{
+		if (x < 0 || y < 0 || x >= _image.PixelWidth || y >= _image.PixelHeight)
+		{
+			#if DEBUG
+			Debug.WriteLine($"X: {x}, Y: {y}");
+			#endif
+			return Colors.Transparent;
+		}
 
-    private void SetPixel(int x, int y, Color? color)
-    {
-        if (color is not { } _color) return;
-        try
-        {
-            // Reserve the back buffer for updates.
-            Image.Lock();
+		try
+		{
+			unsafe
+			{
+				// Reserve the back buffer for updates.
+				Image.Lock();
 
-            unsafe
-            {
-                // Get a pointer to the back buffer.
-                var pBackBuffer = Image.BackBuffer;
+				// Get a pointer to the back buffer.
+				var pBackBuffer = Image.BackBuffer;
 
-                // Find the address of the pixel to draw.
-                pBackBuffer += y * Image.BackBufferStride;
-                pBackBuffer += x * 4;
+				// Find the address of the pixel to draw.
+				pBackBuffer += y * Image.BackBufferStride;
+				pBackBuffer += x * 4;
 
-                // Compute the pixel's color.
-                int colorData = _color.B; // A
-                colorData |= _color.G << 8; // R
-                colorData |= _color.R << 16; // G
-                colorData |= _color.A << 24; // B
+				var data = (byte*)pBackBuffer.ToPointer();
 
+				byte b = data[0];
+				byte g = data[1];
+				byte a = data[3];
+				byte r = data[2];
 
-                // Assign the color data to the pixel.
-                *(int*) pBackBuffer = colorData;
-            }
+				return Color.FromArgb(a, r, g, b);
+			}
+		}
+		catch
+		{
+			return Colors.Transparent;
+		}
+		finally
+		{
+			// Release the back buffer and make it available for display.
+			Image.Unlock();
+		}
+	}
 
-            // Specify the area of the bitmap that changed.
-            Image.AddDirtyRect(new Int32Rect(x, y, 1, 1));
-        }
-        finally
-        {
-            // Release the back buffer and make it available for display.
-            Image.Unlock();
-        }
-    }
+	public static implicit operator ImageSource(EditableImage image)
+	{
+		return image.Image;
+	}
 
-    public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+	private bool SetPixel(int x, int y, Color? color)
+	{
+		if (x < 0 || y < 0 || x >= _image.PixelWidth || y >= _image.PixelHeight)
+		{
+			#if DEBUG
+			Debug.WriteLine($"X: {x}, Y: {y}");
+			#endif
+			return false;
+		}
+
+		if (color is not { } _color) return false;
+		try
+		{
+			// Reserve the back buffer for updates.
+			Image.Lock();
+
+			unsafe
+			{
+				// Get a pointer to the back buffer.
+				var pBackBuffer = Image.BackBuffer;
+
+				// Find the address of the pixel to draw.
+				pBackBuffer += y * Image.BackBufferStride;
+				pBackBuffer += x * 4;
+
+				// Compute the pixel's color.
+
+				int PixelColorData = _color.B;    // B
+				PixelColorData |= _color.G << 8;  // G
+				PixelColorData |= _color.R << 16; // R
+				PixelColorData |= _color.A << 24; // A
+
+				// Assign the color data to the pixel.
+				*(int*)pBackBuffer = PixelColorData;
+			}
+
+			// Specify the area of the bitmap that changed.
+			Image.AddDirtyRect(new Int32Rect(x, y, 1, 1));
+			return true;
+		}
+		catch
+		{
+			return false;
+		}
+		finally
+		{
+			// Release the back buffer and make it available for display.
+			Image.Unlock();
+		}
+	}
+
+	public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+	{
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	}
+}
+
+public readonly struct PixelData
+{
+	public int X { get; }
+	public int Y { get; }
+	public Color Color { get; }
+	public Color PreviousColor { get; }
+
+	public PixelData(int x, int y, Color color, Color previousColor)
+	{
+		X = x;
+		Y = y;
+		Color = color;
+		PreviousColor = previousColor;
+	}
 }

@@ -9,12 +9,22 @@
              mc:Ignorable="d">
     <UserControl.Template>
         <ControlTemplate TargetType="local:PixelImage">
-            <Canvas>
-                <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PixelImage}, Path=EditableImageSource.Image, UpdateSourceTrigger=PropertyChanged}">
-                </Image>
-            </Canvas>
+            <ControlTemplate.Resources>
+                <ResourceDictionary Source="Grids/GridBrush.xaml"/>
+            </ControlTemplate.Resources>
+            <Grid Background="{StaticResource GridBrush}">
+                <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PixelImage}, Path=EditableImageSource.Image, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
         </ControlTemplate>
     </UserControl.Template>
+    <UserControl.ContentTemplate>
+        <DataTemplate>
+            <Grid>
+                <TextBlock Text="hello "/>
+                <ContentPresenter />
+            </Grid>
+        </DataTemplate>
+    </UserControl.ContentTemplate>
 
     <interaction:Interaction.Behaviors>
         <behaviors:DrawBehavior SelectedColor="Aqua"/>
