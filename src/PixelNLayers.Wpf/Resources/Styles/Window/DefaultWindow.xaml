@@ -6,5 +6,7 @@
         </Style.Resources>
         <Setter Property="FontFamily" Value="{StaticResource PixelSimulator}"/>
         <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Background" Value="#232323"/>
+        <Setter Property="Foreground" Value="LightGray"/>
     </Style>
 </ResourceDictionary>

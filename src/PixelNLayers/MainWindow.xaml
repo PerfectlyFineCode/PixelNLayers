@@ -9,17 +9,32 @@
         d:DataContext="{d:DesignInstance {x:Type viewmodels:RootViewModel}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="23"/>
+            <RowDefinition Height="18"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="23"/>
+            <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBlock Grid.Row="0" Text="test"/>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="Open"/>
+                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save As .."/>
+                </MenuItem>
+            </Menu>
         </Grid>
-        <Frame Grid.Row="1" Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
+        <Frame Grid.Row="1" 
+               Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Row="2">
             <StatusBar>
-
+                <StatusBarItem>
+                    <TextBlock Text="0, 0"/>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="TBA"/>
+                        <Button Content="TBA"/>
+                    </StackPanel>
+                </StatusBarItem>
             </StatusBar>
         </Grid>
     </Grid>

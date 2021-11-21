@@ -6,7 +6,7 @@
     <apps:PixelApp.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/PixelNLayers.Wpf;component/Resources/Styles/Default.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PixelNLayers.Wpf;component/Resources/Styles/Window/DefaultWindow.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </apps:PixelApp.Resources>

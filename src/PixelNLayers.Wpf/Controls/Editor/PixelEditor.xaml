@@ -12,6 +12,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{Binding RelativeSource={RelativeSource  Mode=Self}}">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../Resources/Styles/Default.xaml"/>
+    </UserControl.Resources>
     <Grid Background="Black">
         <grids:MovableGrid Image="{Binding Path=DrawableSource.Image, UpdateSourceTrigger=PropertyChanged}"
                            ClipToBounds="True">
