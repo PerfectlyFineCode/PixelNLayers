@@ -13,7 +13,9 @@ namespace PixelNLayers.Shared.Images.Wrapper;
 #nullable disable
 public class EditableImage : INotifyPropertyChanged, IRecordable
 {
-	private readonly Queue<List<PixelData>> HistoryData = new();
+	private readonly Stack<IReadOnlyList<PixelData>> HistoryData = new();
+	private readonly Stack<IReadOnlyList<PixelData>> UndoHistoryData = new();
+
 	private WriteableBitmap _image;
 	private bool _state;
 
@@ -60,10 +62,51 @@ public class EditableImage : INotifyPropertyChanged, IRecordable
 	{
 		if (!_state) return false;
 		Debug.WriteLine(_temporaryPixelDatas.Count);
-		HistoryData.Enqueue(_temporaryPixelDatas);
+		if (_temporaryPixelDatas.Count <= 0) return false;
+		HistoryData.Push(_temporaryPixelDatas);
 		_state = false;
+		OnInvalidated();
 		return true;
 
+	}
+
+	/// <inheritdoc />
+	void IRecordable.GoBack()
+	{
+		if (HistoryData.Count <= 0) return;
+		IReadOnlyList<PixelData> task = HistoryData.Pop();
+		if (task == null) return;
+		DoBack(task);
+		UndoHistoryData.Push(task);
+		Debug.WriteLine("backward");
+	}
+
+	/// <inheritdoc />
+	void IRecordable.GoForward()
+	{
+		if (UndoHistoryData.Count <= 0) return;
+		IReadOnlyList<PixelData> task = UndoHistoryData.Pop();
+		if (task == null) return;
+		DoForward(task);
+		HistoryData.Push(task);
+	}
+
+	public event EventHandler Invalidated;
+
+	private void DoBack(IReadOnlyList<PixelData> data)
+	{
+		foreach (var pixelData in data)
+		{
+			this[pixelData.X, pixelData.Y] = pixelData.PreviousColor;
+		}
+	}
+
+	private void DoForward(IReadOnlyList<PixelData> data)
+	{
+		foreach (var pixelData in data)
+		{
+			this[pixelData.X, pixelData.Y] = pixelData.Color;
+		}
 	}
 
 	private void AddToHistory(int x, int y, Color color, Color previousColor)
@@ -180,6 +223,11 @@ public class EditableImage : INotifyPropertyChanged, IRecordable
 	public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
 	{
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	}
+
+	protected virtual void OnInvalidated()
+	{
+		Invalidated?.Invoke(this, EventArgs.Empty);
 	}
 }
 

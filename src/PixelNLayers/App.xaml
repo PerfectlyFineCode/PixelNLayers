@@ -4,6 +4,10 @@
              xmlns:apps="clr-namespace:PixelNLayers.Wpf.Shared.Apps;assembly=PixelNLayers.Wpf.Shared"
              StartupUri="MainWindow.xaml">
     <apps:PixelApp.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PixelNLayers.Wpf;component/Resources/Styles/Default.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </apps:PixelApp.Resources>
 </apps:PixelApp>

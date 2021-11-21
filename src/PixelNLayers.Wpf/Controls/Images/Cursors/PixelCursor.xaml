@@ -1,0 +1,11 @@
+﻿<Border x:Class="PixelNLayers.Wpf.Controls.Images.Cursors.PixelCursor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PixelNLayers.Wpf.Controls.Images.Cursors"
+             mc:Ignorable="d" 
+             BorderThickness="0.1111111"
+             BorderBrush="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CursorBrush}"
+             Width="1.3333333" Height="1.3333333">
+</Border>

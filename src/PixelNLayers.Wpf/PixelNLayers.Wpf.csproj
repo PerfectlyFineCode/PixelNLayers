@@ -15,6 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\Pixel Emulator\Pixel Emulator.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\Pixel Emulator\Pixel Emulator.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.2.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />

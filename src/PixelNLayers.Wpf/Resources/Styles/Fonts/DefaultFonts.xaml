@@ -1,0 +1,4 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <FontFamily x:Key="PixelSimulator">/PixelNLayers.Wpf;Component/Resources/Fonts/Pixel Emulator/Pixel Emulator.otf#Pixel Emulator</FontFamily>
+</ResourceDictionary>

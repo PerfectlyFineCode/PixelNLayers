@@ -1,17 +1,35 @@
 ﻿using PixelNLayers.Shared.Images.Recorder.Interfaces;
-using PixelNLayers.Shared.Images.Wrapper;
 
 namespace PixelNLayers.Shared.Images.Recorder;
 
 public class Undo
 {
-	public static void BeginRecord(EditableImage image, string name)
+	public static void BeginRecord(IRecordable recordable, string name)
 	{
-		((IRecordable)image).StartRecord();
+		recordable.StartRecord();
 	}
 
-	public static bool EndRecord(EditableImage image)
+	public static void Go(IRecordable recordable, UndoDirection direction)
 	{
-		return ((IRecordable)image).StopRecord();
+		switch (direction)
+		{
+			case UndoDirection.Back:
+				recordable.GoBack();
+				break;
+			case UndoDirection.Forward:
+				recordable.GoForward();
+				break;
+		}
 	}
+
+	public static bool EndRecord(IRecordable recordable)
+	{
+		return recordable.StopRecord();
+	}
+}
+
+public enum UndoDirection
+{
+	Back,
+	Forward
 }

@@ -6,15 +6,39 @@
              xmlns:local="clr-namespace:PixelNLayers.Wpf.Controls.Images"
              xmlns:interaction="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:PixelNLayers.Wpf.Controls.Images.Behaviors"
+             xmlns:cursors="clr-namespace:PixelNLayers.Wpf.Controls.Images.Cursors"
              mc:Ignorable="d">
     <UserControl.Template>
         <ControlTemplate TargetType="local:PixelImage">
             <ControlTemplate.Resources>
                 <ResourceDictionary Source="Grids/GridBrush.xaml"/>
             </ControlTemplate.Resources>
-            <Grid Background="{StaticResource GridBrush}">
+            <Canvas Background="{StaticResource GridBrush}">
                 <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PixelImage}, Path=EditableImageSource.Image, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>
+                <cursors:PixelCursor PositionX="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PixelImage}, Path=CursorPixelX, UpdateSourceTrigger=PropertyChanged}"
+                                     PositionY="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PixelImage}, Path=CursorPixelY, UpdateSourceTrigger=PropertyChanged}"
+                                     Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:PixelImage}, Path=EditableImageSource, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!--TODO 1.333333 * PixelWidth-->
+                <!--Vertical-->
+                <Line X1="42.66656"
+                      X2="42.66656"
+                      Y1="0" 
+                      Y2="85.333312"
+                      Stroke="White"
+                      StrokeThickness="0.1"
+                      Opacity="0.8"/>
+
+                <!--TODO 1.333333 * PixelHeight-->
+                <!--Horizontal-->
+                <Line X1="0"
+                      X2="85.333312"
+                      Y1="42.66656"
+                      Y2="42.66656"
+                      Stroke="White"
+                      StrokeThickness="0.1"
+                      Opacity="0.8"/>
+            </Canvas>
         </ControlTemplate>
     </UserControl.Template>
     <UserControl.ContentTemplate>
@@ -24,9 +48,9 @@
                 <ContentPresenter />
             </Grid>
         </DataTemplate>
-    </UserControl.ContentTemplate>
+    </UserControl.ContentTemplate> 
 
     <interaction:Interaction.Behaviors>
-        <behaviors:DrawBehavior SelectedColor="Aqua"/>
+        <behaviors:DrawBehavior SelectedColor="black"/>
     </interaction:Interaction.Behaviors>
 </UserControl>

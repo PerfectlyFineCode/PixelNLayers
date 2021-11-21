@@ -13,9 +13,27 @@ public partial class PixelImage : UserControl
 		nameof(EditableImageSource), typeof(EditableImage), typeof(PixelImage),
 		new PropertyMetadata(default(EditableImage)));
 
+	public static readonly DependencyProperty CursorPixelXProperty = DependencyProperty.Register(
+		nameof(CursorPixelX), typeof(int), typeof(PixelImage), new PropertyMetadata(default(int)));
+
+	public static readonly DependencyProperty CursorPixelYProperty = DependencyProperty.Register(
+		nameof(CursorPixelY), typeof(int), typeof(PixelImage), new PropertyMetadata(default(int)));
+
 	public PixelImage()
 	{
 		InitializeComponent();
+	}
+
+	public int CursorPixelX
+	{
+		get => (int)GetValue(CursorPixelXProperty);
+		set => SetValue(CursorPixelXProperty, value);
+	}
+
+	public int CursorPixelY
+	{
+		get => (int)GetValue(CursorPixelYProperty);
+		set => SetValue(CursorPixelYProperty, value);
 	}
 
 	public EditableImage EditableImageSource

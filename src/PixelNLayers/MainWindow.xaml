@@ -8,7 +8,20 @@
         Title="PixelNLayers - Open Source Pixel Editor" Height="450" Width="800"
         d:DataContext="{d:DesignInstance {x:Type viewmodels:RootViewModel}}">
     <Grid>
-        <Frame Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="23"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Grid.Row="0" Text="test"/>
+        </Grid>
+        <Frame Grid.Row="1" Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Row="2">
+            <StatusBar>
+
+            </StatusBar>
+        </Grid>
     </Grid>
 </Window>
  

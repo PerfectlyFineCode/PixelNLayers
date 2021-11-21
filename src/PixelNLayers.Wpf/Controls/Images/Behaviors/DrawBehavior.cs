@@ -30,12 +30,31 @@ internal class DrawBehavior : Behavior<PixelImage>
 
 	protected override void OnAttached()
 	{
+		if (Application.Current.MainWindow != null)
+			Application.Current.MainWindow.KeyDown += MainWindow_KeyDown;
+
 		AssociatedObject.MouseDown += AssociatedObject_MouseDown;
 		AssociatedObject.MouseMove += AssociatedObject_MouseMove;
 		AssociatedObject.MouseUp += AssociatedObject_MouseUp;
 		AssociatedObject.MouseEnter += AssociatedObject_MouseEnter;
 		AssociatedObject.MouseLeave += AssociatedObject_MouseLeave;
 		AssociatedObject.Loaded += AssociatedObject_Loaded;
+	}
+
+	private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+	{
+		if (Keyboard.Modifiers != ModifierKeys.Control) return;
+		switch (e.Key)
+		{
+			case Key.Z:
+				Undo.Go(_image, UndoDirection.Back);
+				break;
+			case Key.Y:
+				Undo.Go(_image, UndoDirection.Forward);
+				break;
+			default:
+				return;
+		}
 	}
 
 	private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
@@ -75,6 +94,9 @@ internal class DrawBehavior : Behavior<PixelImage>
 
 		PixelX = (int)(pos.X / AssociatedObject.ActualWidth * _image.Image.PixelWidth);
 		PixelY = (int)(pos.Y / AssociatedObject.ActualHeight * _image.Image.PixelHeight);
+
+		AssociatedObject.CursorPixelX = PixelX;
+		AssociatedObject.CursorPixelY = PixelY;
 
 		if (IsDrawing)
 			SetPixelAtPosition();
