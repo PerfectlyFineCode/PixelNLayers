@@ -17,7 +17,8 @@
             <Menu>
                 <MenuItem Header="File">
                     <MenuItem Header="Open"/>
-                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save" 
+                              Command="{Binding SaveCommand}"/>
                     <MenuItem Header="Save As .."/>
                 </MenuItem>
             </Menu>
@@ -27,7 +28,7 @@
         <Grid Grid.Row="2">
             <StatusBar>
                 <StatusBarItem>
-                    <TextBlock Text="0, 0"/>
+                    <TextBlock Text="{Binding _editorViewModel.Image}"/>
                 </StatusBarItem>
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">

@@ -79,11 +79,11 @@ public partial class PixelCursor : Border
 		if (d is not PixelCursor cursor || e.NewValue is not int value) return;
 		switch (e.Property.Name)
 		{
-			case nameof(PositionX):
+			case nameof(PositionX) when cursor.Source.Image.PixelWidth > value:
 				cursor.SetValue(Canvas.LeftProperty, value * 1.333333);
 				cursor.SetCursorColor();
 				break;
-			case nameof(PositionY):
+			case nameof(PositionY) when cursor.Source.Image.PixelHeight > value:
 				cursor.SetValue(Canvas.TopProperty, value * 1.333333);
 				cursor.SetCursorColor();
 				break;
