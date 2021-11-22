@@ -4,39 +4,61 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:PixelNLayers.Wpf.Shared.ViewModels;assembly=PixelNLayers.Wpf.Shared"
+        xmlns:Hosts="clr-namespace:PixelNLayers.Wpf.Dialogs.Host;assembly=PixelNLayers.Wpf.Dialogs"
         mc:Ignorable="d"
         Title="PixelNLayers - Open Source Pixel Editor" Height="450" Width="800"
         d:DataContext="{d:DesignInstance {x:Type viewmodels:RootViewModel}}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="18"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="32"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Menu>
-                <MenuItem Header="File">
-                    <MenuItem Header="Open"/>
-                    <MenuItem Header="Save" 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="32"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" ZIndex="99999">
+                <Menu>
+                    <MenuItem Header="File">
+                        <MenuItem Header="Open"/>
+                        <MenuItem Header="Save" 
                               Command="{Binding SaveCommand}"/>
-                    <MenuItem Header="Save As .."/>
-                </MenuItem>
-            </Menu>
-        </Grid>
-        <Frame Grid.Row="1" 
+                        <MenuItem Header="Save As .."/>
+                    </MenuItem>
+                </Menu>
+            </Grid>
+            <Grid Grid.Row="1" Grid.RowSpan="2" ZIndex="9998">
+                <Hosts:PixelDialogHost x:Name="DialogHost"/>
+            </Grid>
+            <Frame Grid.Row="1" 
                Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
-        <Grid Grid.Row="2">
-            <StatusBar>
-                <StatusBarItem>
-                    <TextBlock Text="{Binding _editorViewModel.Image}"/>
-                </StatusBarItem>
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="TBA"/>
-                        <Button Content="TBA"/>
-                    </StackPanel>
-                </StatusBarItem>
-            </StatusBar>
+            <Grid Grid.Row="2">
+                <StatusBar>
+                    <StatusBarItem>
+                        <TextBlock Text="0, 0"/>
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="TBA"/>
+                            <Button Content="TBA"/>
+                        </StackPanel>
+                    </StatusBarItem>
+                    <StatusBarItem HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Current color: "/>
+                            <Button Command="{Binding OpenColorPickerCommand}" 
+                                    CommandParameter="{Binding ElementName=DialogHost}">
+                                <Rectangle Width="16"
+                                       Height="16"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{Binding _editorViewModel.CurrentColor, UpdateSourceTrigger=PropertyChanged, FallbackValue=Black}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Button>
+                        </StackPanel>
+                    </StatusBarItem>
+                </StatusBar>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

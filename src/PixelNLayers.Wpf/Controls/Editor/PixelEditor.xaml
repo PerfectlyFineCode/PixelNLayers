@@ -21,7 +21,8 @@
             <images:PixelImage EditableImageSource="{Binding Path=DrawableSource, UpdateSourceTrigger=PropertyChanged}"
                                RenderOptions.BitmapScalingMode="NearestNeighbor"
                                Width="{Binding Path=DrawableSource.Image.Width, UpdateSourceTrigger=PropertyChanged}"
-                               Height="{Binding Path=DrawableSource.Image.Height, UpdateSourceTrigger=PropertyChanged}"/>
+                               Height="{Binding Path=DrawableSource.Image.Height, UpdateSourceTrigger=PropertyChanged}"
+                               CurrentColor="{Binding Path=CurrentColor, UpdateSourceTrigger=PropertyChanged}"/>
         </grids:MovableGrid>
     </Grid>
 </UserControl>

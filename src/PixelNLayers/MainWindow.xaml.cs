@@ -9,9 +9,12 @@ namespace PixelNLayers;
 /// </summary>
 public partial class MainWindow : Window
 {
-	public MainWindow()
-	{
-		InitializeComponent();
-		DataContext = PixelApp.GetService<RootViewModel>();
-	}
+    public MainWindow()
+    {
+        InitializeComponent();
+        DataContext = PixelApp.GetService<RootViewModel>();
+        PixelEditorViewModel = PixelApp.GetService<PixelEditorViewModel>();
+    }
+
+    public PixelEditorViewModel? PixelEditorViewModel { get; set; }
 }

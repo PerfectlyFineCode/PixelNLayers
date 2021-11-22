@@ -8,13 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PixelNLayers.Imaging\PixelNLayers.Imaging.csproj" />
-    <ProjectReference Include="..\PixelNLayers.Shared\PixelNLayers.Shared.csproj" />
-    <ProjectReference Include="..\PixelNLayers.Wpf\PixelNLayers.Wpf.csproj" />
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+    <Page Remove="Models\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\PixelNLayers.Imaging\PixelNLayers.Imaging.csproj" />
+    <ProjectReference Include="..\PixelNLayers.Shared\PixelNLayers.Shared.csproj" />
+    <ProjectReference Include="..\PixelNLayers.Wpf.Dialogs\PixelNLayers.Wpf.Dialogs.csproj" />
+    <ProjectReference Include="..\PixelNLayers.Wpf\PixelNLayers.Wpf.csproj" />
   </ItemGroup>
 
   <ItemGroup>

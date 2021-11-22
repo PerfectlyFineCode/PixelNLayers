@@ -9,9 +9,9 @@ namespace PixelNLayers.Wpf.Shared.Pages;
 /// </summary>
 public partial class PixelEditorPage : Page
 {
-	public PixelEditorPage()
-	{
-		InitializeComponent();
-		DataContext = PixelApp.GetService<PixelEditorViewModel>();
-	}
+    public PixelEditorPage()
+    {
+        InitializeComponent();
+        DataContext = PixelApp.GetService<PixelEditorViewModel>();
+    }
 }

@@ -12,6 +12,7 @@
       d:DataContext="{d:DesignInstance viewModels:PixelEditorViewModel}">
     <Grid>
         <!--<Image Source="{Binding Image.Image, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <editor:PixelEditor DrawableSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.Image, UpdateSourceTrigger=PropertyChanged}"/>
+        <editor:PixelEditor DrawableSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.Image, UpdateSourceTrigger=PropertyChanged}"
+                            CurrentColor="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.CurrentColor, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Page>

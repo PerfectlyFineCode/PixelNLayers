@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelNLayers.Wpf", "PixelNL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelNLayers.Shared", "PixelNLayers.Shared\PixelNLayers.Shared.csproj", "{FC2EFE46-BF12-4F67-9A39-A95A2D9404E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelNLayers.Imaging", "PixelNLayers.Imaging\PixelNLayers.Imaging.csproj", "{7DA6EA32-38E9-440A-BC58-E813E945BEA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelNLayers.Imaging", "PixelNLayers.Imaging\PixelNLayers.Imaging.csproj", "{7DA6EA32-38E9-440A-BC58-E813E945BEA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelNLayers.Wpf.Dialogs", "PixelNLayers.Wpf.Dialogs\PixelNLayers.Wpf.Dialogs.csproj", "{6A7670A0-B3CA-4ED6-BFE7-3DCF16ED00FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7DA6EA32-38E9-440A-BC58-E813E945BEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DA6EA32-38E9-440A-BC58-E813E945BEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DA6EA32-38E9-440A-BC58-E813E945BEA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A7670A0-B3CA-4ED6-BFE7-3DCF16ED00FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A7670A0-B3CA-4ED6-BFE7-3DCF16ED00FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A7670A0-B3CA-4ED6-BFE7-3DCF16ED00FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A7670A0-B3CA-4ED6-BFE7-3DCF16ED00FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

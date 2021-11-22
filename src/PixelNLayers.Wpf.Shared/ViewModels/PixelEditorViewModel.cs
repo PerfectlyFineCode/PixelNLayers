@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System.Windows.Media;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using PixelNLayers.Shared.Images.Wrapper;
 
 namespace PixelNLayers.Wpf.Shared.ViewModels;
@@ -6,16 +7,23 @@ namespace PixelNLayers.Wpf.Shared.ViewModels;
 #nullable disable
 public class PixelEditorViewModel : ObservableObject
 {
-	private EditableImage _image;
+    private Color _currentColor = Colors.Black;
+    private EditableImage _image;
 
-	public PixelEditorViewModel()
-	{
-		Image = new EditableImage(64, 64);
-	}
+    public PixelEditorViewModel()
+    {
+        Image = new EditableImage(64, 64);
+    }
 
-	public EditableImage Image
-	{
-		get => _image;
-		set => SetProperty(ref _image, value);
-	}
+    public Color CurrentColor
+    {
+        get => _currentColor;
+        set => SetProperty(ref _currentColor, value);
+    }
+
+    public EditableImage Image
+    {
+        get => _image;
+        set => SetProperty(ref _image, value);
+    }
 }
