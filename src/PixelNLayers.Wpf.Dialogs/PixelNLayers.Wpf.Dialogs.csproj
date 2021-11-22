@@ -8,7 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\Types\Dialogs\" />
+    <Compile Remove="Controls\Types\Dialogs\**" />
+    <EmbeddedResource Remove="Controls\Types\Dialogs\**" />
+    <None Remove="Controls\Types\Dialogs\**" />
+    <Page Remove="Controls\Types\Dialogs\**" />
   </ItemGroup>
 
 </Project>

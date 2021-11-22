@@ -6,9 +6,58 @@
              xmlns:local="clr-namespace:PixelNLayers.Wpf.Dialogs.Controls.Types.Controls"
              mc:Ignorable="d"
              x:ClassModifier="internal"
-             Width="150"
-             Height="75">
-    <Grid Background="Aqua">
-            
-    </Grid>
+             Width="250"
+             Height="150">
+    <Border BorderBrush="LightGray"
+            Background="#151515"
+            CornerRadius="4"
+            BorderThickness="1">
+        <UniformGrid Rows="5">
+            <UniformGrid Columns="3">
+                <TextBlock Text="R"/>
+                <Slider Margin="0,0,5,0"
+                        Minimum="0"
+                        Maximum="255"
+                        IsSnapToTickEnabled="True"
+                        x:Name="SliderR"
+                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPickerControl}, Path=ColorR, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding ElementName=SliderR, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+            </UniformGrid>
+            <UniformGrid Columns="3">
+                <TextBlock Text="G"/>
+                <Slider Margin="0,0,5,0"
+                        Minimum="0"
+                        Maximum="255"
+                        IsSnapToTickEnabled="True"
+                        x:Name="SliderG"
+                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPickerControl}, Path=ColorG, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding ElementName=SliderG, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+            </UniformGrid>
+            <UniformGrid Columns="3">
+                <TextBlock Text="B"/>
+                <Slider Margin="0,0,5,0"
+                        Minimum="0"
+                        Maximum="255"
+                        IsSnapToTickEnabled="True"
+                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPickerControl}, Path=ColorB, UpdateSourceTrigger=PropertyChanged}"
+                        x:Name="SliderB"/>
+                <TextBlock Text="{Binding ElementName=SliderB, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+            </UniformGrid>
+            <UniformGrid Columns="3">
+                <TextBlock Text="A"/>
+                <Slider Margin="0,0,5,0"
+                        Minimum="0"
+                        Maximum="255"
+                        IsSnapToTickEnabled="True"
+                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPickerControl}, Path=ColorA, UpdateSourceTrigger=PropertyChanged}"
+                        x:Name="SliderA"/>
+                <TextBlock Text="{Binding ElementName=SliderA, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+            </UniformGrid>
+            <Rectangle Margin="2">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPickerControl}, Path=CurrentColor, UpdateSourceTrigger=PropertyChanged}"/>
+                </Rectangle.Fill>
+            </Rectangle>
+        </UniformGrid>
+    </Border>
 </UserControl>

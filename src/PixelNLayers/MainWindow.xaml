@@ -29,7 +29,8 @@
                 <Hosts:PixelDialogHost x:Name="DialogHost"/>
             </Grid>
             <Frame Grid.Row="1" 
-               Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
+               Content="{Binding CurrentPage, UpdateSourceTrigger=PropertyChanged}"
+               Focusable="True"/>
             <Grid Grid.Row="2">
                 <StatusBar>
                     <StatusBarItem>
@@ -38,14 +39,15 @@
                     <StatusBarItem>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="TBA"/>
-                            <Button Content="TBA"/>
+                            <Button Content="TBA" Focusable="False"/>
                         </StackPanel>
                     </StatusBarItem>
                     <StatusBarItem HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Current color: "/>
                             <Button Command="{Binding OpenColorPickerCommand}" 
-                                    CommandParameter="{Binding ElementName=DialogHost}">
+                                    CommandParameter="{Binding ElementName=DialogHost}"
+                                    Focusable="False">
                                 <Rectangle Width="16"
                                        Height="16"
                                        VerticalAlignment="Center"
